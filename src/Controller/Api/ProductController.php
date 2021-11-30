@@ -11,11 +11,11 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Throwable;
 
-class BooksController extends AbstractFOSRestController
+class ProductController extends AbstractFOSRestController
 {
     /**
-     * @Rest\Get(path="/books")
-     * @Rest\View(serializerGroups={"book"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\Get(path="/products")
+     * @Rest\View(serializerGroups={"product"}, serializerEnableMaxDepthChecks=true)
      */
     public function getAction(
         BookRepository $bookRepository
@@ -27,7 +27,7 @@ class BooksController extends AbstractFOSRestController
      * @Rest\Get(path="/books/{id}")
      * @Rest\View(serializerGroups={"book"}, serializerEnableMaxDepthChecks=true)
      */
-    public function getSingleAction(string $id, GetBook $getBook)
+    public function getSingleAction(string $id,  $getBook)
     {
         try {
             $book = ($getBook)($id);
@@ -38,8 +38,8 @@ class BooksController extends AbstractFOSRestController
     }
 
     /**
-     * @Rest\Post(path="/books")
-     * @Rest\View(serializerGroups={"book"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\Post(path="/product")
+     * @Rest\View(serializerGroups={"product"}, serializerEnableMaxDepthChecks=true)
      */
     public function postAction(
         BookFormProcessor $bookFormProcessor,

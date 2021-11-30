@@ -6,6 +6,7 @@ use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
 
 /**
  * @ORM\Entity(repositoryClass=CategoryRepository::class)
@@ -34,12 +35,20 @@ class Category
      */
     private $products;
 
-    public function __construct()
+
+    public function __construct(UuidInterface $uuid, string $name)
     {
+        $this->id = $uuid;
+        $this->name = $name;
         $this->products = new ArrayCollection();
     }
 
-    public function getId(): ?int
+    public static function create(string $name): self
+    {
+        return new self(Uuid::uuid4(), $name);
+    }
+
+    public function getId(): UuidInterface
     {
         return $this->id;
     }

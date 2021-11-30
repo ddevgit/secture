@@ -14,37 +14,29 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class ProductRepository extends ServiceEntityRepository
 {
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Product::class);
     }
 
-    // /**
-    //  * @return Product[] Returns an array of Product objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    public function save(Product $product): product
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('p.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        $this->getEntityManager()->persist($product);
+        $this->getEntityManager()->flush();
+        return $product;
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Product
+    public function reload(Product $product): product
     {
-        return $this->createQueryBuilder('p')
-            ->andWhere('p.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        $this->getEntityManager()->refresh($product);
+        return $product;
     }
-    */
+
+    public function delete(Product $product)
+    {
+        $this->getEntityManager()->remove($product);
+        $this->getEntityManager()->flush();
+    }
+
 }

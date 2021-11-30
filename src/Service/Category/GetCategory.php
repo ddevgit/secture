@@ -9,7 +9,6 @@ use Ramsey\Uuid\Uuid;
 
 class GetCategory
 {
-
     private  $categoryRepository;
 
     public function __construct(CategoryRepository $categoryRepository)

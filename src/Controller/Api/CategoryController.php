@@ -3,9 +3,9 @@
 namespace App\Controller\Api;
 
 use App\Repository\CategoryRepository;
-use App\Service\Category\CategoryFormProcessor;
+use App\Service\Category\ProductFormProcessor;
 use App\Service\Category\DeleteCategory;
-use App\Service\Category\GetCategory;
+use App\Service\Category\GetProduct;
 use Exception;
 use FOS\RestBundle\Controller\Annotations as Rest;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
@@ -29,7 +29,7 @@ class CategoryController extends AbstractFOSRestController
      * @Rest\Get(path="/categories/{id}")
      * @Rest\View(serializerGroups={"book"}, serializerEnableMaxDepthChecks=true)
      */
-    public function getSingleAction(string $id, GetCategory $getCategory)
+    public function getSingleAction(string $id, GetProduct $getCategory)
     {
         try {
             $category = ($getCategory)($id);
@@ -46,7 +46,7 @@ class CategoryController extends AbstractFOSRestController
      */
     public function postAction(
         Request $request,
-        CategoryFormProcessor $categoryFormProcessor
+        ProductFormProcessor $categoryFormProcessor
     ) {
         [$category, $error] = ($categoryFormProcessor)($request);
         $statusCode = $category ? Response::HTTP_CREATED : Response::HTTP_BAD_REQUEST;
@@ -60,7 +60,7 @@ class CategoryController extends AbstractFOSRestController
      */
     public function editAction(
         string $id,
-        CategoryFormProcessor $categoryFormProcessor,
+        ProductFormProcessor $categoryFormProcessor,
         Request $request
     ) {
         try {

@@ -3,7 +3,10 @@
 namespace App\Entity;
 
 use App\Repository\ProductRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=ProductRepository::class)
@@ -37,7 +40,19 @@ class Product
      */
     private $currency;
 
-    public function getId(): ?int
+
+    public function __construct(UuidInterface $uuid, string $name)
+    {
+        $this->id = $uuid;
+        $this->name = $name;
+    }
+
+    public static function create(string $name): self
+    {
+        return new self(Uuid::uuid4(), $name);
+    }
+
+    public function getId(): UuidInterface
     {
         return $this->id;
     }
