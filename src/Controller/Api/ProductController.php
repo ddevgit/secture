@@ -2,7 +2,7 @@
 
 namespace App\Controller\Api;
 
-use App\Repository\BookRepository;
+use App\Repository\ProductRepository;
 use Exception;
 use FOS\RestBundle\Controller\AbstractFOSRestController;
 use FOS\RestBundle\Controller\Annotations as Rest;
@@ -18,23 +18,23 @@ class ProductController extends AbstractFOSRestController
      * @Rest\View(serializerGroups={"product"}, serializerEnableMaxDepthChecks=true)
      */
     public function getAction(
-        BookRepository $bookRepository
+        ProductRepository $productRepository
     ) {
-        return $bookRepository->findAll();
+        return $productRepository->findAll();
     }
 
     /**
-     * @Rest\Get(path="/books/{id}")
-     * @Rest\View(serializerGroups={"book"}, serializerEnableMaxDepthChecks=true)
+     * @Rest\Get(path="/product/{id}")
+     * @Rest\View(serializerGroups={"product"}, serializerEnableMaxDepthChecks=true)
      */
-    public function getSingleAction(string $id,  $getBook)
+    public function getSingleAction(string $id, $getProduct)
     {
         try {
-            $book = ($getBook)($id);
+            $product = ($getProduct)($id);
         } catch (Exception $exception) {
-            return View::create('Book not found', Response::HTTP_BAD_REQUEST);
+            return View::create('Product not found', Response::HTTP_BAD_REQUEST);
         }
-        return $book;
+        return $product;
     }
 
     /**
