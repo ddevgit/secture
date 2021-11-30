@@ -6,6 +6,7 @@ namespace App\Controller;
 
 
 use App\Entity\Book;
+use App\Repository\BookRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,25 +23,31 @@ class LibraryController extends AbstractController
         $this->logger = $logger;
     }
 
+
     /**
-     * @Route("/library/list", name="library_list")
+     * @Route("/books", name="library_list")
      */
-    public function list(Request $request)
+    public function list(Request $request, BookRepository $bookRepository)
     {
         $title = $request->get('title', '*******  // without title // ******');
+        $books = $bookRepository->findAll();
+        $booksAsArray = [];
+
+        foreach ($books as $book)
+        {
+            $booksAsArray[] = [
+              'id' => $book->getId(),
+                'title' => $book->getTitle(),
+                'image' => $book->getImage()
+            ];
+        }
+
+
         $this->logger->warning($title);
         $response = new JsonResponse();
         $response->setData([
            'success' =>true,
-           'data'  =>
-               [
-                'id' => 1,
-                'title' => 'Hacia rutas salvajes'
-                ],
-                [
-                'id' => 2,
-                'title' => $title
-                ]
+           'data'  => $booksAsArray
         ]);
 
         return $response;
@@ -54,19 +61,26 @@ class LibraryController extends AbstractController
     public function createBook(Request $request, EntityManagerInterface $em)
     {
         $book = new Book();
+        $response = new JsonResponse();
+        $title = $request->get('title', null);
         $book->setTitle('Hacia rutas salvajes');
         $em->persist($book);
         $em->flush();
 
-        $response = new JsonResponse();
-        $response->setData([
-           'success' => true,
-           'data' =>
-               [
-                  'id' => $book->getId(),
-                   'title' => $book->getTitle(),
-               ]
-        ]);
+        if(empty($title))
+        {
+            $response->setData([
+                'success' => false,
+                'error' => 'Title cannot be empty',
+                'data' =>null
+            ]);
+
+            return $response;
+        }
+
+        $book->setTitle($title);
+        $em->persist($book);
+        $em->flush();
 
         return $response;
 
