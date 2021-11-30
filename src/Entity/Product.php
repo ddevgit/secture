@@ -23,7 +23,7 @@ class Product
     private $name;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Category",inversedBy="products", cascade={"persist"})
      */
     private $category;
 
@@ -54,17 +54,6 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?string
-    {
-        return $this->category;
-    }
-
-    public function setCategory(?string $category): self
-    {
-        $this->category = $category;
-
-        return $this;
-    }
 
     public function getPrice(): ?float
     {
@@ -86,6 +75,18 @@ class Product
     public function setCurrency(string $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
 
         return $this;
     }
