@@ -46,31 +46,30 @@ class LibraryController extends AbstractController
         return $response;
     }
 
+
+
     /**
      * @Route("/book/create", name="create_book")
      */
-    public function createBook(Request $request, EntityManagerInterface $entityManager)
+    public function createBook(Request $request, EntityManagerInterface $em)
     {
-        if(null != $request->get('title')){
-
-        }
-
         $book = new Book();
-        $book->setTitle('hacia rutas salvajes');
-        $entityManager->persist($book);
-        $entityManager->flush();
+        $book->setTitle('Hacia rutas salvajes');
+        $em->persist($book);
+        $em->flush();
 
         $response = new JsonResponse();
         $response->setData([
-            'success' =>true,
-            'data'  =>
-                [
-                    'id' => $book->getId(),
-                    'title' => $book->getTitle()
-                ]
+           'success' => true,
+           'data' =>
+               [
+                  'id' => $book->getId(),
+                   'title' => $book->getTitle(),
+               ]
         ]);
 
         return $response;
+
     }
 
 }

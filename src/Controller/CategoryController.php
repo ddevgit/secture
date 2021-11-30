@@ -7,6 +7,7 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -31,21 +32,24 @@ class CategoryController extends AbstractController
      */
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $category = new Category();
-        $form = $this->createForm(CategoryType::class, $category);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
+            $category = new Category();
             $entityManager->persist($category);
             $entityManager->flush();
 
-            return $this->redirectToRoute('category_index', [], Response::HTTP_SEE_OTHER);
-        }
+            $response = new JsonResponse();
+            $response->setData([
+                'success' => true,
+                'data' =>
+                    [
+                        'id' => $category->getId(),
+                        'title' => $category->getName(),
+                        'description' => $category->getDescription(),
+                        'product' => $category->getProduct(), // OBJECT
+                    ]
+            ]);
 
-        return $this->renderForm('category/new.html.twig', [
-            'category' => $category,
-            'form' => $form,
-        ]);
+            return $response;
+
     }
 
 
