@@ -7,5 +7,11 @@
       <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
       <jdbc-url>jdbc:mysql://localhost:8889/librarify_db</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="librarify_db@localhost [2]" uuid="d3e0767b-1f36-425d-8ce3-1dd61ea4b7ab">
+      <driver-ref>mysql.8</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.cj.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:8889/librarify_db</jdbc-url>
+    </data-source>
   </component>
 </project>
