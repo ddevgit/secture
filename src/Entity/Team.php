@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Ramsey\Uuid\Uuid;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * @ORM\Entity(repositoryClass=TeamRepository::class)
@@ -31,10 +30,9 @@ class Team
      */
     private $players;
 
-    public function __construct(UuidInterface $uuid, string $name)
+    public function __construct()
     {
-        $this->id = $uuid;
-        $this->name = $name;
+        $this->id = Uuid::uuid4();
         $this->players = new ArrayCollection();
     }
 
@@ -49,7 +47,7 @@ class Team
         return $this;
     }
 
-    public function getId(): UuidInterface
+    public function getId()
     {
         return $this->id;
     }

@@ -1,0 +1,6 @@
+App\Entity\Team:
+    attributes:
+      id:
+         groups: ['team']
+      name:
+         groups: ['team']

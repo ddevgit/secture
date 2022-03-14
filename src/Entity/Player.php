@@ -40,10 +40,9 @@ class Player
     private $price;
 
 
-    public function __construct(UuidInterface $uuid, string $name)
+    public function __construct()
     {
-        $this->id = $uuid;
-        $this->name = $name;
+        $this->id = Uuid::uuid4();
     }
 
     public static function create(string $name): self
@@ -57,7 +56,7 @@ class Player
         return $this;
     }
 
-    public function getId(): UuidInterface
+    public function getId()
     {
         return $this->id;
     }
