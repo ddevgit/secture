@@ -3,8 +3,7 @@
 namespace App\Service\Player;
 
 use App\Repository\PlayerRepository;
-use App\Repository\TeamRepository;
-use App\Service\Team\GetTeam;
+
 
 class DeletePlayer
 {
