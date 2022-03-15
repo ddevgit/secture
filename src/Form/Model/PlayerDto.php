@@ -27,4 +27,5 @@ class PlayerDto
     {
         return $this->name;
     }
+
 }
